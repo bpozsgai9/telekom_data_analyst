@@ -1,0 +1,44 @@
+import pandas as pd
+import pandasql as sql
+import matplotlib.pyplot as plt; plt.rcdefaults()
+import matplotlib.pyplot as plt
+import numpy as np
+
+'''
+A következő feladatok során egy képzeletbeli mobil szolgáltató ügyfeleit kell elemezned, 
+egy mobil szerződéseket tartalmazó tábla, és az ügyfelek által használt készülék információk alapján.
+A könyvtárakat, amikre a feladatok megoldása alatt szükséged lesz, megadtuk neked a dokumentum tetején.
+A feladatok megoldásait text fájlban várjuk vissza, a következő formátumban:
+
+<--1.feladat megoldása--->
+     ÁLTALAD ÍRT KÓD HELYE
+<--1.feladat megoldás vége--->
+'''
+
+
+'''
+A feladat nulladik lépéseként, olvasd be az átadott csv kiterjesztésű fájlokat.
+A beolvasott adatokon kell majd elemzési feladatokat végezned, pandasql segítségével.
+
+CSAK SQL KÓDDAL MEGÍRT LEKÉRDEZÉSEKET FOGADUNK EL!
+'''
+
+
+
+#ELSŐ FELADAT: Írj egy lekérdezést, amely visszaadja azon szerződések számát, ahol a szerződés létrehozásának dátuma kisebb mint 2023. Május 1.
+
+#MÁSODIK FELADAT: Írj egy lekérdezést, ami visszaadja, hogy a lakossági, valamint az üzleti szerződéseknél milyen arányban fordulnak elő az egyes internet szolgáltatások. Az eredményt rendezt a szegmens alapján csökkenőbe.
+
+#HARMADIK FELADAT: Írj egy lekérdezést amely visszaadja, hogy mely szerződések vannak fizetési elmaradásban, és azok milyen típusú készüléket használnak.
+
+#NEGYEDIK FELADAT: Írj egy lekérdezést, amely visszaadja, hogy melyik a leggyakrabban előforduló hang szolgáltatás az egyes készülék típusoknál.
+
+
+'''
+#ÖTÖDIK FELADAT:
+A 4. feladatban kapott eredmények alapján készíts egy oszlop diagrammot matplotlib segítségével.
+Az x tengelyen legyenek a készülék gyártók nevei, az y tengelyen pedig a visszakapott számok.
+'''
+
+
+Jó munkát!

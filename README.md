@@ -8,7 +8,9 @@
 A visszakövethetőség és biztonság érdekében a feladat megoldása megtalálható az alábbi git repository-ban:
 https://github.com/bpozsgai9/telekom_data_analyst
 
-A a Power Point prezentációk elérhetőek Google Dia formátumban is az alábbi linkeken (MS Office verzióütközés esetén):
+A a Power Point prezentációk elérhetőek Google Dia formátumban is az alábbi linkeken
+(MS Office verzióütközés vagy nem telepített betűtípus esetén):
+
 Scenario_1:
 
 Scenario_2:
