@@ -1,0 +1,2 @@
+2. SQL feladat: (csatolt fájl: SQL.zip)
+Küldünk két minta adatbázist (csv formátumban) és egy feladat leíró excelt. Itt 4 db lekérdezést várunk Tőled, Oralce SQL-ben, egy text fájlban vagy Word dokumentumban küldd vissza a lekérdezéseket.

@@ -1,0 +1,4 @@
+3. Python és SQL feladat: (csatolt fájl: Python+SQL.zip)
+Ha ezt a feladatot is meg tudod oldani, akkor a 2-es SQL feladatot nem kell elküldened, mert ennek az SQL része megegyezik azzal.
+
+Itt is küldjük a minta adatbázisokat és feladat leírását.
