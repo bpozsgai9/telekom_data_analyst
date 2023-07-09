@@ -408,6 +408,15 @@ $(document).ready(function() {
     console.log("localStorage already containes dataFromApi!")
     let dataFromApi = JSON.parse(localStorage.getItem("dataFromApi"))
     console.log(dataFromApi)
+
+    $("#imgUrl").attr("src", dataFromApi.device.imageUrl);
+    $(".productName").text(dataFromApi.device.name);
+    $("#installment").text(dataFromApi.device.remainingInstallments);
+    $("#months").text(dataFromApi.device.numberOfMonths);
+    $("#totalPrice").text(dataFromApi.device.totalPrice);
+    $("#voiceServiceName").text(dataFromApi.plan.voiceServiceName);
+    $("#netServiceName").text(dataFromApi.plan.netServiceName);
+
    }
 });
 
@@ -421,6 +430,7 @@ $("form").on("submit", function(e) {
     alert("Field can't be empty!")
 
   } else {
+
     $.post("https://eomqf3lubgu1jf1.m.pipedream.net/insert",
     {
       apiKey: $("#apiKey").val()
