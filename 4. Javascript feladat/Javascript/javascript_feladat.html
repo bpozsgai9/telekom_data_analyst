@@ -392,10 +392,48 @@ label{
 </div>
 </form>
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script>
 
 /*IDE VÁRJUK A MEGOLDÁSOD*/
+$(document).ready(function() {
+
+   if (localStorage.getItem("dataFromApi")  == null ||
+   localStorage.getItem("dataFromApi")  == "") {
+
+    console.log("localStorage does not containes dataFromApi!")
+
+   } else {
+
+    console.log("localStorage already containes dataFromApi!")
+    let dataFromApi = JSON.parse(localStorage.getItem("dataFromApi"))
+    console.log(dataFromApi)
+   }
+});
 
 
+$("form").on("submit", function(e) {
+  e.preventDefault();
+
+  console.log('Key Readed form input')
+  if ($("#apiKey").val() == "") {
+
+    alert("Field can't be empty!")
+
+  } else {
+    $.post("https://eomqf3lubgu1jf1.m.pipedream.net/insert",
+    {
+      apiKey: $("#apiKey").val()
+    },
+    function (data, status) {
+
+      console.log("\nStatus: " + status)
+      console.log(data);
+      localStorage.setItem("dataFromApi", JSON.stringify(data))
+      console.log("Data stored in localStorage!")
+      location.reload();
+    });
+  }
+});
 </script>
 </html>
