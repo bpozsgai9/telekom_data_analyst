@@ -392,21 +392,31 @@ label{
 </div>
 </form>
 </body>
+<!--jQuery Ajax könyvtár betöltése CDN-ről-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script>
 
 /*IDE VÁRJUK A MEGOLDÁSOD*/
+
+//Ha betölt minden elsőnek futtasd le ezt
 $(document).ready(function() {
 
+  //Ellenőrizd a localStorage tartalmát, benne van-e már az dataFromApi változó
+  //Biztonságos teszteléshez az adat eltárolása
+  //Az API csak 20 kérést engedélyez
    if (localStorage.getItem("dataFromApi")  == null ||
    localStorage.getItem("dataFromApi")  == "") {
 
+    //Ha nincs, tájékoztasd a felhasználót a teendőről
     alert("Insert an API key for continue.\nThen WAIT a few seconds to load the data!")
     console.log("localStorage does not containes dataFromApi!")
 
    } else {
 
+    //Ha benne van, töltsd be annak tartalmát a megfelelő helyre
     console.log("localStorage already containes dataFromApi!")
+
+    //str változó parse-olása
     let dataFromApi = JSON.parse(localStorage.getItem("dataFromApi"))
     console.log(dataFromApi)
 
@@ -417,21 +427,25 @@ $(document).ready(function() {
     $("#totalPrice").text(dataFromApi.device.totalPrice);
     $("#voiceServiceName").text(dataFromApi.plan.voiceServiceName);
     $("#netServiceName").text(dataFromApi.plan.netServiceName);
-
    }
 });
 
-
+//Submit gombra kattintás esetén
 $("form").on("submit", function(e) {
+  
+  //Ne töltsd újra az oldalt
   e.preventDefault();
 
   console.log('Key Readed form input')
+
+  //Üres értéket nem lehet elküldeni!
   if ($("#apiKey").val() == "") {
 
     alert("Field can't be empty!")
 
   } else {
 
+    //Adatküldés, majd a válasz fogadása
     $.post("https://eomqf3lubgu1jf1.m.pipedream.net/insert",
     {
       apiKey: $("#apiKey").val()
@@ -439,13 +453,20 @@ $("form").on("submit", function(e) {
     function (data, status) {
 
       console.log("\nStatus: " + status)
+      
+      //Nem megfelelő státusz esetén tájékoztatás
       if (status >= 400 && status < 600) {
         alert("Bad status! \nStatus: " + status)
       }
 
       console.log(data);
+
+      //Az adatot tárold el a localStorage-ban, ne tiltson le az API 20 kérés felett
+      //Csak str változó tárolható el
       localStorage.setItem("dataFromApi", JSON.stringify(data))
       console.log("Data stored in localStorage!")
+
+      //Most töltsd újra az oldalt, hogy betölthessen az adat a document.ready függvény-ben
       location.reload();
     });
   }
