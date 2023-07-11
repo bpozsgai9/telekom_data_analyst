@@ -439,6 +439,10 @@ $("form").on("submit", function(e) {
     function (data, status) {
 
       console.log("\nStatus: " + status)
+      if (status >= 400 && status < 600) {
+        alert("Bad status! \nStatus: " + status)
+      }
+
       console.log(data);
       localStorage.setItem("dataFromApi", JSON.stringify(data))
       console.log("Data stored in localStorage!")
