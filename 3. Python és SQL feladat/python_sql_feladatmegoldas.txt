@@ -1,0 +1,159 @@
+# pandassql nem támogatja az SQLAlchemy legújabb verzióját (2.0.18), vissza kell redukáni stabil verzióra
+# Ellenkező esetben futtatásnál TraceBack-et dob!!!
+# pip install SQLAlchemy==1.4.46
+
+import pandas as pd
+import pandasql as sql
+import matplotlib.pyplot as plt; plt.rcdefaults()
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+# <--0.feladat megoldása--->
+# Olvasd be az átadott csv kiterjesztésű fájlokat.
+# A beolvasott adatokon kell majd elemzési feladatokat végezned, pandasql segítségével.
+devices = pd.read_csv('devices.csv', encoding='utf8', sep=";")
+display(devices.head())
+
+contract = pd.read_csv('contract.csv', encoding='utf8', sep=";")
+display(contract.head())
+# <--0.feladat megoldás vége--->
+
+# <--1.feladat megoldása--->
+# Írj egy lekérdezést, amely visszaadja azon szerződések számát, ahol a szerződés létrehozásának dátuma kisebb mint 2023. Május 1.
+query_1 ="""
+SELECT
+
+    -- Add vissza a szűrt CONTRACT_ID-k számát
+    COUNT(CONTRACT_ID) AS NUMBER_OF_FILTERED_CONTRACTS
+FROM
+    contract
+WHERE
+    INSTALLATION_DATE < '2023-05-01';
+"""
+
+display(sql.sqldf(query_1))
+# <--1.feladat megoldás vége--->
+
+# <--2.feladat megoldása--->
+# Írj egy lekérdezést, ami visszaadja, hogy a lakossági, valamint az üzleti szerződéseknél milyen arányban fordulnak elő az egyes internet szolgáltatások. Az eredményt rendezt a szegmens alapján csökkenőbe.
+query_2 ="""
+SELECT
+    SEGMENT_GROUP,
+    NET_SERVICE_NAME,
+
+    -- Szolgáltatás igénybevételének száma
+    COUNT(*) AS COUNT_ALL_IN_NET_SERVICE_NAME,
+
+    -- Szolgáltatások száma egy szegmenesben
+    COUNT(*) OVER (PARTITION BY SEGMENT_GROUP) AS COUNT_SEGMENT_GROUP,
+
+    -- Összes szolgáltatás száma a szegmensben
+    SUM(COUNT(*)) OVER (PARTITION BY SEGMENT_GROUP) AS NUMBER_OF_ALL_SERVICE_IN_SEGMENT,
+
+    -- Százalékos arány kiszámolása
+    -- 100 * Szolgáltatás igénybevételének száma / Összes szolgáltatás száma a szegmensben
+    -- 100.0 * 6524 / (6524 + 6431 + 6699)
+    -- 652 400 / 19 654
+    100.0 * COUNT(*) / SUM(COUNT(*)) OVER (PARTITION BY SEGMENT_GROUP) AS RATIO
+FROM
+    contract
+GROUP BY
+    SEGMENT_GROUP,
+    NET_SERVICE_NAME
+ORDER BY
+    SEGMENT_GROUP DESC;
+"""
+
+display(sql.sqldf(query_2))
+# <--2.feladat megoldás vége--->
+
+# <--3.feladat megoldása--->
+# Írj egy lekérdezést amely visszaadja, hogy mely szerződések vannak fizetési elmaradásban, és azok milyen típusú készüléket használnak.
+query_3 ="""
+SELECT
+    -- Szükségem van a szerződésre és az ahhoz tartozó eszközre
+    contract.CONTRACT_ID,
+    devices.USED_DEVICE
+FROM
+    contract 
+INNER JOIN
+    devices
+ON
+    contract.CONTRACT_ID = devices.CONTRACT_ID
+WHERE
+    -- Elmaradást az 1-es jelzi
+    contract.COLL_STATUS = 1;
+"""
+
+display(sql.sqldf(query_3))
+# <--3.feladat megoldás vége--->
+
+# <--4.feladat megoldása--->
+# Írj egy lekérdezést, amely visszaadja, hogy melyik a leggyakrabban előforduló hang szolgáltatás az egyes készülék típusoknál.
+query_4 ="""
+SELECT
+    *
+FROM
+    (SELECT
+        -- Eszköznév
+        devices.USED_DEVICE,
+
+        -- Igénybe vett hang szolgáltatások száma az eszközökön belül
+        COUNT(contract.VOICE_SERVICE_NAME) AS NUMBER_OF_MOST_FREQUENT_VALUE,
+
+        -- Hang szolgáltatás neve
+        contract.VOICE_SERVICE_NAME,
+
+        -- Azonos eszközök sorszámmal ellátása
+        ROW_NUMBER() OVER (PARTITION BY devices.USED_DEVICE) RANK
+        
+    FROM
+        contract
+    INNER JOIN
+        devices
+    ON
+        contract.CONTRACT_ID = devices.CONTRACT_ID
+    GROUP BY
+        devices.USED_DEVICE,
+        contract.VOICE_SERVICE_NAME
+    ORDER BY
+        -- sorrend meghatározása
+        devices.USED_DEVICE,
+        contract.VOICE_SERVICE_NAME)
+WHERE
+    -- Csak az 1-es sorszámút listázd ki
+    RANK = 1;
+"""
+
+# Az 5. feladathoz kimenteni változóba a Dataframe-et
+voice_df = sql.sqldf(query_4)
+display(voice_df)
+# <--4.feladat megoldás vége--->
+
+
+# <--5.feladat megoldása--->
+# A 4. feladatban kapott eredmények alapján készíts egy oszlop diagrammot matplotlib segítségével.
+# Az x tengelyen legyenek a készülék gyártók nevei, az y tengelyen pedig a visszakapott számok.
+
+# Diagram létrehozása
+ax = (voice_df.plot(
+    kind='bar',
+    x='USED_DEVICE',
+    y='NUMBER_OF_MOST_FREQUENT_VALUE',
+    title='Leggyakrabban Előforduló Hang',
+    color= 'tab:green',
+    width= 0.8))
+
+# Legyen a digram maximum értéke változó az adathalmaz méretétől függően
+most_frequent_val_as_list = voice_df['NUMBER_OF_MOST_FREQUENT_VALUE'].tolist()
+ax.set_ylim(0, max(most_frequent_val_as_list) + 1000)
+
+# Írasd ki az oszlopok tetejére a hozzátartozó értéket
+rects = ax.patches
+labels = most_frequent_val_as_list
+
+for rect, label in zip(rects, labels):
+    height = rect.get_height()
+    ax.text(rect.get_x() + rect.get_width() / 2, height + 5, label, ha="center", va="bottom")
+# <--5.feladat megoldás vége--->

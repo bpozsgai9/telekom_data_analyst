@@ -1,20 +1,33 @@
 # Telekom Data Analyst felvételi feladat
 
-1. Általános problémamegoldás és prezentáció
-2. SQL feladat
-3. Python és SQL feladat
-4. Javascript feladat
-
-A visszakövethetőség és biztonság érdekében a feladat megoldása megtalálható az alábbi git repository-ban:
+A visszakövethetőség érdekében a feladat megoldása megtalálható az alábbi git repository-ban:<br>
 https://github.com/bpozsgai9/telekom_data_analyst
 
-A a Power Point prezentációk elérhetőek Google Dia formátumban is az alábbi linkeken
-(MS Office verzióütközés vagy nem telepített betűtípus esetén):
+### 1. Általános problémamegoldás és prezentáció mappa tartalma<br>
+Mappa tartalma:
+- általános_problémamegoldás_feladatok.docx
+- Scenario_1.pptx
+- Scenario_1.pptx
 
-Scenario_1:
+A a Power Point prezentációk elérhetőek Google Dia formátumban is az lenti linkeken.<br>
+MS Office verzióütközés, nem telepített betűtípus vagy egyéb probléma esetén.
 
-Scenario_2:
+**Scenario_1:**<br>
+https://docs.google.com/presentation/d/1zpO6mqZecGgM68YU9zBGVKpiyXF0lX8xqTgJm0agISw/edit?usp=sharing
 
-Scenario_3:
+**Scenario_2:**<br>
+https://docs.google.com/presentation/d/1xWTVtS3cF6MsRa2tWtEsaAEUGSCQ8jQNAbhmqd8qVCo/edit?usp=sharing
 
-Scenario_4:
+
+### 2. SQL feladat
+**Kihagyva!** A megadott lehetőségek alapján a 3. feladat megoldva!
+
+### 3. Python és SQL feladat
+Mappa tartalma:
+- Python+SQL.zip tartalma
+- python_sql_feladatmegoldas.ipynb (a lekérdezések cellákra bontva vannak szétszedve, Vs Code Jupyter kiegészítőben fejlesztve)
+- python_sql_feladatmegoldas.txt (A txt tartalma futtatható, a python_sql_feladatmegoldas.ipynb-ben található cellák tartalma egyben)
+
+### 4. Javascript feladat
+- Javascript leírás.xlsx
+- javascript_feladat.html (a megoldás beágyazva az előre megadott helyre)
