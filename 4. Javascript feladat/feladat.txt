@@ -1,2 +1,0 @@
-Javascript feladat: (csatolt fájl: Javascript.zip)
-Feladat leírása és egy HTML fájl amibe a megoldást be kell illesztened.
