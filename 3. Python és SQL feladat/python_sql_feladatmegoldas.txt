@@ -1,6 +1,7 @@
 # pandassql nem támogatja az SQLAlchemy legújabb verzióját (2.0.18), vissza kell redukáni stabil verzióra
 # Ellenkező esetben futtatásnál TraceBack-et dob!!!
 # pip install SQLAlchemy==1.4.46
+# https://colab.research.google.com/drive/1s5zRvo-P4gJ--ILkX9Xg0F4auw7E4EEB?usp=sharing
 
 import pandas as pd
 import pandasql as sql
@@ -90,37 +91,40 @@ display(sql.sqldf(query_3))
 # <--3.feladat megoldás vége--->
 
 # <--4.feladat megoldása--->
-# Írj egy lekérdezést, amely visszaadja, hogy melyik a leggyakrabban előforduló hang szolgáltatás az egyes készülék típusoknál.
+# 4. Írj egy lekérdezést, amely visszaadja, hogy melyik a leggyakrabban előforduló hang szolgáltatás az egyes készülék típusoknál.
+
 query_4 ="""
 SELECT
     *
 FROM
     (SELECT
-        -- Eszköznév
-        devices.USED_DEVICE,
-
-        -- Igénybe vett hang szolgáltatások száma az eszközökön belül
-        COUNT(contract.VOICE_SERVICE_NAME) AS NUMBER_OF_MOST_FREQUENT_VALUE,
-
-        -- Hang szolgáltatás neve
-        contract.VOICE_SERVICE_NAME,
-
+        *,
         -- Azonos eszközök sorszámmal ellátása
-        ROW_NUMBER() OVER (PARTITION BY devices.USED_DEVICE) RANK
-        
+        ROW_NUMBER() OVER (PARTITION BY USED_DEVICE) RANK
     FROM
-        contract
-    INNER JOIN
-        devices
-    ON
-        contract.CONTRACT_ID = devices.CONTRACT_ID
-    GROUP BY
-        devices.USED_DEVICE,
-        contract.VOICE_SERVICE_NAME
-    ORDER BY
-        -- sorrend meghatározása
-        devices.USED_DEVICE,
-        contract.VOICE_SERVICE_NAME)
+        (SELECT
+            -- Eszköznév
+            devices.USED_DEVICE,
+
+            -- Igénybe vett hang szolgáltatások száma az eszközökön belül
+            COUNT(contract.VOICE_SERVICE_NAME) AS NUMBER_OF_MOST_FREQUENT_VALUE,
+
+            -- Hang szolgáltatás neve
+            contract.VOICE_SERVICE_NAME
+            
+        FROM
+            contract
+        INNER JOIN
+            devices
+        ON
+            contract.CONTRACT_ID = devices.CONTRACT_ID
+        GROUP BY
+            devices.USED_DEVICE,
+            contract.VOICE_SERVICE_NAME
+        ORDER BY
+            -- sorrend meghatározása
+            devices.USED_DEVICE,
+            NUMBER_OF_MOST_FREQUENT_VALUE DESC))
 WHERE
     -- Csak az 1-es sorszámút listázd ki
     RANK = 1;
