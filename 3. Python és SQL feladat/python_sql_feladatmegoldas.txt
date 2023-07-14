@@ -1,7 +1,6 @@
 # pandassql nem támogatja az SQLAlchemy legújabb verzióját (2.0.18), vissza kell redukáni stabil verzióra
 # Ellenkező esetben futtatásnál TraceBack-et dob!!!
 # pip install SQLAlchemy==1.4.46
-# https://colab.research.google.com/drive/1s5zRvo-P4gJ--ILkX9Xg0F4auw7E4EEB?usp=sharing
 
 import pandas as pd
 import pandasql as sql
